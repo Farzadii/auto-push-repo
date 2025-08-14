@@ -1,0 +1,17 @@
+name: Daily Auto Push
+on:
+  schedule:
+    - cron: '0 0 * * *' # هر روز ساعت 00:00 UTC (3:30 صبح به وقت ایران)
+jobs:
+  auto-push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Update log file
+        run: |
+          echo "Update on $(date)" >> log.txt
+          git config user.name "GitHub Action"
+          git config user.email "action@github.com"
+          git add log.txt
+          git commit -m "Daily update: $(date)"
+          git push
